@@ -17,6 +17,7 @@ $nickForm.submit(function(e) {
 	    $('#contentWrap').show();
 	} else {
 	    $nickError.html('That username is already taken!  Try again.');
+	    $nickError.show();
 	}
     });
     myNick = $nickBox.val();

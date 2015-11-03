@@ -7,7 +7,23 @@ var express = require('express'),
     users = {};
 
 
-server.listen(30331);
+function normalizePort(val) {
+    var port = parseInt(val, 10);
+
+    if (isNaN(port)) {
+	// named pipe
+	return val;
+    }
+
+    if (port >= 0) {
+	// port number
+	return port;
+    }
+    return false;
+}
+
+var port = normalizePort(process.env.PORT || '30331');
+server.listen(port);
 
 mongoose.connect('mongodb://localhost/chat', function(err){
 	if(err){
