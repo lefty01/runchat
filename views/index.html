@@ -1,0 +1,73 @@
+<html>
+<head>
+  <title>RunChat</title>
+
+  <link rel="stylesheet" href="chat.css">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <!-- <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/css/materialize.min.css"> -->
+  <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" type="text/css"/>
+  <link href="pnotify.custom.min.css" media="all" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+
+  <!-- FIXME: Use Bootstrap Modal Plugin for nick enter form -->
+  <!-- <\!-- Modal -\-> -->
+  <!-- <div class="modal fade" id="myModal" role="dialog"> -->
+  <!--   <div class="modal-dialog"> -->
+  <!--     <\!-- Modal content-\-> -->
+  <!--     <div class="modal-content"> -->
+  <!-- 	<div class="modal-header"> -->
+  <!-- 	  <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+  <!-- 	  <h4 class="modal-title">Enter a username</h4> -->
+  <!-- 	</div> -->
+  <!-- 	<div class="modal-body"> -->
+  <!-- 	  <p>Enter a username:</p> -->
+  <!-- 	  <form id="setNick"> -->
+  <!-- 	    <input size="35" id="nickname"></input> -->
+  <!-- 	    <input type="submit" value="Enter"></input> -->
+  <!-- 	  </form> -->
+  <!-- 	</div> -->
+  <!-- 	<div class="modal-footer"> -->
+  <!-- 	  <\!-- <button type="button" class="btn btn-default" data-dismiss="modal">Enter</button> -\-> -->
+  <!-- 	</div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!-- </div> -->
+  <!-- <div  class="modal fade"> -->
+
+  <div id="nickWrap">
+    <p>Enter a username:</p>
+    <p id="nickError"></p>
+    <form id="setNick">
+      <input size="35" id="nickname"></input>
+      <input type="submit" value="Enter"></input>
+    </form>
+  </div>
+
+
+  <div id="contentWrap">
+    <div id="chatWrap">
+      <div id="chat"></div>
+      <div id="sendmsg">
+	<form id="send-message">
+	  <input size="35" id="message"></input>
+	  <input type="submit" value="Send"></input>
+	</form>
+      </div>
+    </div>
+    <div id="users"></div>
+  </div>
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <!-- <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.js"></script> -->
+  <!-- <script type="text/javascript" src="pnotify.custom.min.js"></script> -->
+  <script src="/socket.io/socket.io.js"></script>
+
+  <!-- <script type="text/javascript">  PNotify.prototype.options.styling = "bootstrap3"; </script> -->
+  <script type="text/javascript" src="chat.js"></script>
+
+</body>
+</html>

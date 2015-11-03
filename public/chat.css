@@ -1,0 +1,36 @@
+#chat{
+    height:600px;
+    width:600px;
+}
+
+#contentWrap{
+    display: none;
+}
+
+#chatWrap{
+    float: left;
+}
+
+#chat{
+    float: left;
+    border: 1px #000 solid;
+    //position: fixed;
+    overflow: auto;
+    //overflow-y:scroll;
+}
+
+#sendmsg{
+    //float: left;
+    //position:fixed;
+}
+
+.error{
+    color: red;
+}
+.oldmsg{
+    color: gray;
+}
+.whisper{
+    color: gray;
+    font-style: italic;
+}
