@@ -85,12 +85,14 @@ $(window).on("blur focus", function(e) {
 });
 
 function displayMsg(data) {
-    var timestamp = data.created ? data.created + ": " : "";
-    $chat.append('<span class="msg"><i>' + timestamp +
+    var ts = new Date(data.created);
+    $chat.append('<span class="msg"><i>' + ts.toLocaleTimeString() + ": " +
 		 '</i><b>' + data.nick + ': </b>' + data.msg + "</span><br/>");
 }
 
 function displayOldMsg(data) {
-    $chat.append('<span class="oldmsg"><i>' + data.created +
+    var ts = new Date(data.created);
+    $chat.append('<span class="oldmsg"><i>' + ts.toLocaleDateString() + " " +
+		 ts.toLocaleTimeString() + ": " +
 		 ': </i><b>' + data.nick + ': </b>' + data.msg + "</span><br/>");
 }
