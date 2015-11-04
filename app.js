@@ -56,12 +56,13 @@ io.sockets.on('connection', function(socket){
 		socket.emit('load old msgs', docs);
 	});
 
-	socket.on('new user', function(data, callback){
-		if (data in users){
+        socket.on('new user', function(data, callback){
+	        var nick = data.trim();
+		if (!nick || (nick in users)){
 			callback(false);
 		} else{
 			callback(true);
-			socket.nickname = data;
+			socket.nickname = nick;
 			users[socket.nickname] = socket;
 			updateNicknames();
 		}

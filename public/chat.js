@@ -8,6 +8,7 @@ var $messageForm = $('#send-message');
 var $messageBox = $('#message');
 var $chat = $('#chat');
 var myNick;
+var updateTitleNotifier = false;
 
 $nickForm.submit(function(e) {
     e.preventDefault();
@@ -16,7 +17,7 @@ $nickForm.submit(function(e) {
 	    $('#nickWrap').hide();
 	    $('#contentWrap').show();
 	} else {
-	    $nickError.html('That username is already taken!  Try again.');
+	    $nickError.html('Username already taken or invalid!  Try again.');
 	    $nickError.show();
 	}
     });
@@ -52,6 +53,9 @@ socket.on('load old msgs', function(docs) {
 
 socket.on('new message', function(data) {
     displayMsg(data);
+    if (updateTitleNotifier) {
+	titlenotifier.add();
+    }
     $chat.scrollTop($chat.prop('scrollHeight'));
 });
 
@@ -59,6 +63,25 @@ socket.on('new message', function(data) {
 socket.on('whisper', function(data) {
     $chat.append('<span class="whisper"><b>' + data.nick +
 		 ': </b>' + data.msg + "</span><br/>");
+});
+
+
+$(window).on("blur focus", function(e) {
+    var prevType = $(this).data("prevType");
+
+    if (prevType != e.type) {   //  reduce double fire issues
+        switch (e.type) {
+        case "blur":
+            // do work
+	    updateTitleNotifier = true;
+            break;
+        case "focus":
+	    updateTitleNotifier = false;
+            titlenotifier.reset();
+            break;
+        }
+    }
+    $(this).data("prevType", e.type);
 });
 
 function displayMsg(data) {
