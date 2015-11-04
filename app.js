@@ -6,17 +6,12 @@ var express = require('express'),
     favicon = require('serve-favicon'),
     users = {};
 
-
 function normalizePort(val) {
     var port = parseInt(val, 10);
-
     if (isNaN(port)) {
-	// named pipe
 	return val;
     }
-
     if (port >= 0) {
-	// port number
 	return port;
     }
     return false;
@@ -93,10 +88,10 @@ io.sockets.on('connection', function(socket){
 			}
 		} else { // not a whisper
 		    var newMsg = new Chat({msg: msg, nick: socket.nickname});
-		    console.log("newMsg created: " + newMsg.created);
 		    newMsg.save(function(err) {
 			if (err) throw err;
-			io.sockets.emit('new message', {msg: msg, nick: socket.nickname, created: newMsg.created });
+			io.sockets.emit('new message',
+					{msg: msg, nick: socket.nickname, created: newMsg.created });
 		    });
 		}
 	});
