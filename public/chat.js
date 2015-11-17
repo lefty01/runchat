@@ -60,12 +60,6 @@ socket.on('new message', function(data) {
 });
 
 
-socket.on('whisper', function(data) {
-    $chat.append('<span class="whisper"><b>' + data.nick +
-		 ': </b>' + data.msg + "</span><br/>");
-});
-
-
 $(window).on("blur focus", function(e) {
     var prevType = $(this).data("prevType");
 
