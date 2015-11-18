@@ -39,10 +39,12 @@ $nickForm.submit(function(e) {
 socket.on('usernames', function(data) {
     var html = '';
     for (var i=0; i < data.length; i++) {
+	var nick = data[i];
+	//  .css('color', getUsernameColor(data[i]));
 	if (myNick === data[i]) {
-	    html += '<b>' + data[i] + '</b><br/>';
+	    html += '<b>' + nick + '</b><br/>';
 	} else {
-	    html += data[i] + '<br/>';
+	    html += nick + '<br/>';
 	}
     }
     $users.html(html);
@@ -94,6 +96,19 @@ $(window).on("blur focus", function(e) {
     }
     $(this).data("prevType", e.type);
 });
+
+
+// Gets the color of a username through our hash function
+function getUsernameColor (username) {
+    // Compute hash code
+    var hash = 7;
+    for (var i = 0; i < username.length; i++) {
+	hash = username.charCodeAt(i) + (hash << 5) - hash;
+    }
+    // Calculate color
+    var index = Math.abs(hash % COLORS.length);
+    return COLORS[index];
+}
 
 function displayMsg(data) {
     var ts = new Date(data.created); // only display time string (w/o date)
