@@ -38,6 +38,17 @@ var chatSchema = mongoose.Schema({
     created: {type: Date, default: Date.now}
 });
 
+var nickSchema = mongoose.Schema({
+    nick: String,
+    phone: String,
+    sendsms: { type: Boolean, default: false },
+    lastSeen: {type: Date, default: Date.now}
+});
+
+nickSchema.path('phone').validate(function(val) {
+    return true;
+}, 'Error: invalid phone number');
+
 var Chat = mongoose.model('Message', chatSchema);
 
 app.use(express.static(__dirname + '/public'));
@@ -50,6 +61,7 @@ app.get('/', function(req, res) {
 
 
 io.on('connection', function(socket) {
+    var addedUser = false;
     var yesterday = new Date();
     yesterday.setHours(yesterday.getHours() - 12);
 
@@ -66,6 +78,8 @@ io.on('connection', function(socket) {
 	    callback(false);
 	} else {
 	    callback(true);
+	    ++numUsers;
+	    addedUser = true;
 	    socket.nickname = nick;
 	    users[socket.nickname] = socket;
 	    updateNicknames();
@@ -78,18 +92,29 @@ io.on('connection', function(socket) {
 
     socket.on('send message', function(data, callback) {
 	var msg = data.trim();
-	console.log('after trimming message is: ' + msg);
-	var newMsg = new Chat({msg: msg, nick: socket.nickname});
-	newMsg.save(function(err) {
-	    if (err) throw err;
-	    io.sockets.emit('new message',
-			    {msg: msg, nick: socket.nickname, created: newMsg.created });
-	});
+	console.log('after trimming message is: ' + msg + " from: " + socket.nickname);
+	if (! socket.nickname) {
+	    callback("You are undefined (re-connect problem)! Please reload chat");
+	}
+	else {
+	    var newMsg = new Chat({msg: msg, nick: socket.nickname});
+	    newMsg.save(function(err) {
+		if (err) throw err;
+		io.sockets.emit('new message',
+				{msg: msg, nick: socket.nickname, created: newMsg.created });
+	    });
+	}
     });
 
     socket.on('disconnect', function(data) {
-	if(!socket.nickname) return;
-	delete users[socket.nickname];
-	updateNicknames();
+	if (!socket.nickname) {
+	    console.log("disconnect received but have no nickname to remove!?");
+	    return;
+	}
+	if (addedUser) {
+	    delete users[socket.nickname];
+	    --numUsers;
+	    updateNicknames();
+	}
     });
 });

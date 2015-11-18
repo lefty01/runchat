@@ -7,8 +7,14 @@ var $users = $('#users');
 var $messageForm = $('#send-message');
 var $messageBox = $('#message');
 var $chat = $('#chat');
-var myNick;
+var myNick;// = "mr. X"; // get prev nick from cookie?
 var updateTitleNotifier = false;
+
+var COLORS = [
+    '#e21400', '#91580f', '#f8a700', '#f78b00',
+    '#58dc00', '#287b00', '#a8f07a', '#4ae8c4',
+    '#3b88eb', '#3824aa', '#a700ff', '#d300e7'
+];
 
 $nickForm.submit(function(e) {
     e.preventDefault();
@@ -41,6 +47,7 @@ $messageForm.submit(function(e) {
     e.preventDefault();
     socket.emit('send message', $messageBox.val(), function(data) {
 	$chat.append('<span class="error">' + data + "</span><br/>");
+	$chat.scrollTop($chat.prop('scrollHeight'));
     });
     $messageBox.val('');
 });
@@ -79,7 +86,7 @@ $(window).on("blur focus", function(e) {
 });
 
 function displayMsg(data) {
-    var ts = new Date(data.created);
+    var ts = new Date(data.created); // only display time string (w/o date)
     $chat.append('<span class="msg"><i>' + ts.toLocaleTimeString() + ": " +
 		 '</i><b>' + data.nick + ': </b>' + data.msg + "</span><br/>");
 }
