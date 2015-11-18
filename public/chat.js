@@ -18,6 +18,11 @@ var COLORS = [
 
 $nickForm.submit(function(e) {
     e.preventDefault();
+
+    if (! socket.connected) {
+	alert("Lost connection to chat server! Try again later.");
+    }
+
     socket.emit('new user', $nickBox.val(), function(data) {
 	if (data) {
 	    $('#nickWrap').hide();
@@ -45,6 +50,11 @@ socket.on('usernames', function(data) {
 
 $messageForm.submit(function(e) {
     e.preventDefault();
+
+    if (! socket.connected) {
+	alert("Lost connection to chat server! Try again later.");
+    }
+
     socket.emit('send message', $messageBox.val(), function(data) {
 	$chat.append('<span class="error">' + data + "</span><br/>");
 	$chat.scrollTop($chat.prop('scrollHeight'));
